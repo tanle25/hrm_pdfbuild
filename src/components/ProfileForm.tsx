@@ -14,16 +14,35 @@ import {
   Briefcase,
   Star,
   Users2,
-  Languages
+  Languages,
+  Sparkles
 } from 'lucide-react';
 
 interface Props {
   data: ProfileData;
   onChange: (data: ProfileData) => void;
   lang: Language;
+  onTranslateProfile?: (sourceLang: Language) => void;
+  isTranslating?: boolean;
 }
 
-export default function ProfileForm({ data, onChange, lang }: Props) {
+const Section = ({ title, icon: Icon, children }: { title: string, icon: any, children: React.ReactNode }) => (
+  <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-6">
+    <div className="bg-gray-50/80 px-6 py-4 border-bottom border-gray-100 flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <div className="p-2 bg-white rounded-lg border border-gray-100 text-red-600 shadow-sm">
+          <Icon className="w-5 h-5" />
+        </div>
+        <h3 className="font-bold text-gray-800 tracking-tight">{title}</h3>
+      </div>
+    </div>
+    <div className="p-6 space-y-4">
+      {children}
+    </div>
+  </div>
+);
+
+export default function ProfileForm({ data, onChange, lang, onTranslateProfile, isTranslating = false }: Props) {
   const [formLang, setFormLang] = useState<Language>(lang);
 
   // Sync internal formLang with global lang when global lang changes
@@ -116,26 +135,10 @@ export default function ProfileForm({ data, onChange, lang }: Props) {
     }
   };
 
-  const Section = ({ title, icon: Icon, children }: { title: string, icon: any, children: React.ReactNode }) => (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-6">
-      <div className="bg-gray-50/80 px-6 py-4 border-bottom border-gray-100 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-white rounded-lg border border-gray-100 text-red-600 shadow-sm">
-            <Icon className="w-5 h-5" />
-          </div>
-          <h3 className="font-bold text-gray-800 tracking-tight">{title}</h3>
-        </div>
-      </div>
-      <div className="p-6 space-y-4">
-        {children}
-      </div>
-    </div>
-  );
-
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-20">
       {/* Form Language Toggle */}
-      <div className="sticky top-20 z-40 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-red-100 flex items-center justify-between gap-4 mb-8">
+      <div className="sticky top-20 z-40 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-red-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-red-100 text-red-600 rounded-lg">
             <Languages className="w-5 h-5" />
@@ -145,18 +148,14 @@ export default function ProfileForm({ data, onChange, lang }: Props) {
             <h4 className="font-black text-gray-900">{t.languages[formLang]}</h4>
           </div>
         </div>
-        <div className="flex bg-gray-100 p-1 rounded-xl">
+        <div className="flex w-full md:w-auto">
           <button
-            onClick={() => setFormLang('vi')}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${formLang === 'vi' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500'}`}
+            onClick={() => onTranslateProfile?.(formLang)}
+            disabled={isTranslating || !onTranslateProfile}
+            className="flex w-full md:w-auto items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-bold shadow-sm hover:bg-red-700 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Tiếng Việt
-          </button>
-          <button
-            onClick={() => setFormLang('zh')}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${formLang === 'zh' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500'}`}
-          >
-            Tiếng Trung
+            <Sparkles className="w-4 h-4" />
+            {isTranslating ? 'Đang dịch...' : 'Dịch thông minh'}
           </button>
         </div>
       </div>
