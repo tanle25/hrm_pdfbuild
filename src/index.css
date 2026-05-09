@@ -202,15 +202,15 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  min-height: 46px;
-  padding: 7px 8px 7px 7px;
+  min-height: 50px;
+  padding: 8px 8px 8px 7px;
   background: linear-gradient(135deg, var(--red-1), var(--red-deep));
   border: 1px solid var(--gold-2);
   width: 100%;
   overflow: visible;
 }
 .preview-page .member-chip-logo {
-  width: 32px; height: 32px;
+  width: 30px; height: 30px;
   background: white;
   border-radius: 50%;
   overflow: hidden;
@@ -219,7 +219,7 @@
   display: flex; align-items: center; justify-content: center;
 }
 .preview-page .member-chip-logo img { width: 100%; height: 100%; object-fit: contain; }
-.preview-page .member-chip-text { display: flex; flex-direction: column; gap: 0; min-width: 0; flex: 1; overflow: visible; }
+.preview-page .member-chip-text { display: flex; flex-direction: column; justify-content: center; gap: 0; min-width: 0; flex: 1; overflow: visible; }
 .preview-page .member-chip-eyebrow {
   font-size: 8px;
   font-weight: 700;
@@ -229,15 +229,17 @@
   line-height: 1;
 }
 .preview-page .member-chip-name {
-  font-size: 7.8px;
+  display: block;
+  font-size: 6.8px;
   font-weight: 700;
   color: white;
   text-transform: uppercase;
   letter-spacing: 0;
-  line-height: 1.35;
+  line-height: 1.9;
+  padding: 2px 0;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: clip;
 }
 .preview-page .info-icon {
   width: 28px; height: 28px;
