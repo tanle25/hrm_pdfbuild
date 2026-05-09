@@ -98,7 +98,6 @@ export default function ProfilePreview({ data, lang }: Props) {
                   <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=100&q=80" alt="Hội" />
                 </div>
                 <div className="member-chip-text">
-                  <div className="member-chip-eyebrow">{labels.memberLabel}</div>
                   <div className="member-chip-name" dangerouslySetInnerHTML={{ __html: data.info.name[lang] }}></div>
                 </div>
               </div>

@@ -18,3 +18,8 @@ View your app in AI Studio: https://ai.studio/apps/f4f143fe-9ddd-43c4-9afe-a928d
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Deploy on Vercel
+
+Add `GEMINI_API_KEY` in Vercel Project Settings -> Environment Variables.
+Do not prefix it with `VITE_`; the key is used only by the serverless API route at `/api/translate-profile`.
