@@ -1,5 +1,6 @@
 import { ProfileData, Language } from "../types";
 import { translations } from "../translations";
+import defaultAssociationLogo from "../../logo-500.png";
 import { 
   MapPin, 
   Calendar, 
@@ -31,6 +32,7 @@ interface Props {
 export default function ProfilePreview({ data, lang }: Props) {
   // Translate UI labels based on language
   const labels = translations[lang].previewLabels;
+  const memberName = data.info.name[lang].replace(/<br\s*\/?>/gi, " ");
 
   // Generate pseudo-random QR pattern
   const qrCells = [];
@@ -95,10 +97,10 @@ export default function ProfilePreview({ data, lang }: Props) {
             <div className="info-row info-member-row">
               <div className="member-chip">
                 <div className="member-chip-logo">
-                  <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=100&q=80" alt="Hội" />
+                  <img src={defaultAssociationLogo} alt="Hội doanh nghiệp giao thương Việt Trung" />
                 </div>
                 <div className="member-chip-text">
-                  <div className="member-chip-name" dangerouslySetInnerHTML={{ __html: data.info.name[lang] }}></div>
+                  <div className="member-chip-name">{memberName}</div>
                 </div>
               </div>
             </div>
@@ -349,7 +351,7 @@ export default function ProfilePreview({ data, lang }: Props) {
           <div className="qr-block">
             <div className="qr-box">
               {data.wechatQrUrl ? (
-                <img src={data.wechatQrUrl} className="w-full h-full object-contain" alt="WeChat QR" />
+                <img src={data.wechatQrUrl} className="qr-image" alt="WeChat QR" />
               ) : (
                 qrCells.map((isOff, i) => {
                   const finderState = isFinderSquare(i);
