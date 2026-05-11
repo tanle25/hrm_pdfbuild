@@ -368,7 +368,7 @@ export default function App() {
               </button>
             </div>
 
-            <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-xl">
+            <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-xl lg:hidden">
               <button
                 onClick={() => setViewMode('edit')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
@@ -428,9 +428,29 @@ export default function App() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto p-6 md:p-12 min-h-[calc(100vh-80px)] print:p-0 print:max-w-none print:m-0">
-        <AnimatePresence mode="wait">
-          {viewMode === 'edit' ? (
+      <main className="max-w-[1800px] mx-auto p-4 md:p-6 xl:p-8 min-h-[calc(100vh-80px)] print:p-0 print:max-w-none print:m-0">
+        <div className="hidden lg:grid lg:grid-cols-[minmax(420px,620px)_minmax(0,1fr)] xl:grid-cols-[minmax(460px,680px)_minmax(0,1fr)] gap-6 xl:gap-8 items-start print:hidden">
+          <div>
+            <ProfileForm
+              data={data}
+              onChange={setData}
+              lang={selectedLang}
+              onTranslateProfile={handleTranslateProfile}
+              isTranslating={isTranslating}
+            />
+          </div>
+          <aside className="sticky top-28 min-w-0">
+            <div className="bg-white p-4 rounded-2xl shadow-xl border border-gray-100 overflow-auto max-h-[calc(100vh-8rem)]">
+              <div className="live-preview-scale">
+                <ProfilePreview data={data} lang={selectedLang} />
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div className="lg:hidden">
+          <AnimatePresence mode="wait">
+            {viewMode === 'edit' ? (
             <motion.div
               key="edit"
               initial={{ opacity: 0, y: 10 }}
@@ -446,7 +466,7 @@ export default function App() {
                 isTranslating={isTranslating}
               />
             </motion.div>
-          ) : (
+            ) : (
             <motion.div
               key="preview"
               initial={{ opacity: 0, scale: 0.98 }}
@@ -458,8 +478,9 @@ export default function App() {
                 <ProfilePreview data={data} lang={selectedLang} />
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </div>
       </main>
 
       {/* Floating Action Button for Mobile Print */}

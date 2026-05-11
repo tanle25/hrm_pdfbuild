@@ -52,6 +52,35 @@
   overflow: visible;
 }
 
+.live-preview-scale {
+  width: 210mm;
+  min-width: 210mm;
+  height: 763px;
+  transform: scale(0.68);
+  transform-origin: top left;
+}
+
+@media (min-width: 1280px) {
+  .live-preview-scale {
+    height: 920px;
+    transform: scale(0.82);
+  }
+}
+
+@media (min-width: 1536px) {
+  .live-preview-scale {
+    height: 1067px;
+    transform: scale(0.95);
+  }
+}
+
+@media (min-width: 1720px) {
+  .live-preview-scale {
+    height: 297mm;
+    transform: scale(1);
+  }
+}
+
 /* ============ HEADER ============ */
 .preview-page .header {
   position: relative;
