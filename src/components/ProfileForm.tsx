@@ -42,6 +42,52 @@ const Section = ({ title, icon: Icon, children }: { title: string, icon: any, ch
   </div>
 );
 
+const ImageUploadField = ({
+  label,
+  value,
+  onChange,
+  onUpload,
+  previewClassName = "w-20 h-20",
+  objectFit = "cover",
+  chooseFileLabel,
+  urlPlaceholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  previewClassName?: string;
+  objectFit?: "cover" | "contain";
+  chooseFileLabel: string;
+  urlPlaceholder: string;
+}) => (
+  <div className="space-y-2">
+    <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">{label}</label>
+    <div className="flex gap-3 items-center">
+      <div className={`${previewClassName} bg-gray-100 rounded-lg border border-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center`}>
+        {value ? (
+          <img src={value} className="w-full h-full" style={{ objectFit }} alt={label} />
+        ) : (
+          <ImageIcon className="text-gray-400" />
+        )}
+      </div>
+      <div className="flex-1 flex gap-2">
+        <label className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold cursor-pointer hover:bg-gray-300 transition-colors whitespace-nowrap">
+          {chooseFileLabel}
+          <input type="file" className="hidden" accept="image/*" onChange={onUpload} />
+        </label>
+        <input
+          type="text"
+          placeholder={urlPlaceholder}
+          className="min-w-0 flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs outline-none focus:ring-1 focus:ring-red-500"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </div>
+    </div>
+  </div>
+);
+
 export default function ProfileForm({ data, onChange, lang, onTranslateProfile, isTranslating = false }: Props) {
   const [formLang, setFormLang] = useState<Language>(lang);
 
@@ -122,6 +168,12 @@ export default function ProfileForm({ data, onChange, lang, onTranslateProfile, 
     const products = [...data.products];
     products[index] = { ...products[index], img: value };
     onChange({ ...data, products });
+  };
+
+  const updateCertImage = (index: number, value: string) => {
+    const certImageUrls = [...data.certImageUrls];
+    certImageUrls[index] = value;
+    onChange({ ...data, certImageUrls });
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
@@ -425,6 +477,18 @@ export default function ProfileForm({ data, onChange, lang, onTranslateProfile, 
             />
         </div>
 
+        <div className="mb-6">
+          <ImageUploadField
+            label={t.fields.capabilityImage}
+            value={data.capabilityImageUrl}
+            onChange={(url) => updateField('capabilityImageUrl', url)}
+            onUpload={(e) => handleFileUpload(e, (url) => updateField('capabilityImageUrl', url))}
+            previewClassName="w-24 h-20"
+            chooseFileLabel={t.fields.chooseFile}
+            urlPlaceholder={t.fields.orUrl}
+          />
+        </div>
+
         <div className="space-y-2 mb-6">
           <label className="text-sm font-bold text-gray-700 uppercase tracking-wider">{t.fields.capabilityList} ({formLang})</label>
           <div className="space-y-3">
@@ -480,6 +544,23 @@ export default function ProfileForm({ data, onChange, lang, onTranslateProfile, 
             </button>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          {data.certImageUrls.map((url, i) => (
+            <div key={i}>
+              <ImageUploadField
+                label={`${t.fields.certImages} ${i + 1}`}
+                value={url}
+                onChange={(nextUrl) => updateCertImage(i, nextUrl)}
+                onUpload={(e) => handleFileUpload(e, (nextUrl) => updateCertImage(i, nextUrl))}
+                previewClassName="w-24 h-16"
+                objectFit="cover"
+                chooseFileLabel={t.fields.chooseFile}
+                urlPlaceholder={t.fields.orUrl}
+              />
+            </div>
+          ))}
+        </div>
       </Section>
 
       <Section title={t.sections.strengths} icon={Star}>
@@ -504,6 +585,18 @@ export default function ProfileForm({ data, onChange, lang, onTranslateProfile, 
                </div>
             ))}
             <button onClick={() => addArrayEntry('needs')} className="py-2 border-2 border-dashed rounded-lg text-gray-400 font-bold">+ {t.buttons.addNeed}</button>
+          </div>
+
+          <div className="pt-4">
+            <ImageUploadField
+              label={t.fields.needsImage}
+              value={data.needsImageUrl}
+              onChange={(url) => updateField('needsImageUrl', url)}
+              onUpload={(e) => handleFileUpload(e, (url) => updateField('needsImageUrl', url))}
+              previewClassName="w-28 h-20"
+              chooseFileLabel={t.fields.chooseFile}
+              urlPlaceholder={t.fields.orUrl}
+            />
           </div>
         </div>
       </Section>

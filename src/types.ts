@@ -36,6 +36,9 @@ export interface ProfileData {
   };
   logoUrl: string;
   heroUrl: string;
+  capabilityImageUrl: string;
+  certImageUrls: string[];
+  needsImageUrl: string;
   wechatQrUrl: string;
   info: {
     name: { vi: string, zh: string };
@@ -90,6 +93,12 @@ export const INITIAL_DATA: ProfileData = {
   },
   logoUrl: "https://placehold.co/200x200/white/8B1322?text=LOGO",
   heroUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+  capabilityImageUrl: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=200&q=70",
+  certImageUrls: [
+    "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=200&q=70",
+    "https://images.unsplash.com/photo-1589330694653-ded6df03f754?w=200&q=70"
+  ],
+  needsImageUrl: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=300&q=70",
   wechatQrUrl: "",
   info: {
     name: {

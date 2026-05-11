@@ -20,7 +20,16 @@ type ExportProgress = {
 export default function App() {
   const [data, setData] = useState<ProfileData>(() => {
     const saved = localStorage.getItem('profileData');
-    return saved ? JSON.parse(saved) : INITIAL_DATA;
+    if (!saved) return INITIAL_DATA;
+
+    const parsed = JSON.parse(saved) as Partial<ProfileData>;
+    return {
+      ...INITIAL_DATA,
+      ...parsed,
+      capabilityImageUrl: parsed.capabilityImageUrl ?? INITIAL_DATA.capabilityImageUrl,
+      certImageUrls: parsed.certImageUrls ?? INITIAL_DATA.certImageUrls,
+      needsImageUrl: parsed.needsImageUrl ?? INITIAL_DATA.needsImageUrl,
+    };
   });
   
   const [viewMode, setViewMode] = useState<'edit' | 'preview'>('edit');
@@ -124,6 +133,9 @@ export default function App() {
 
     next.logoUrl = profile.logoUrl;
     next.heroUrl = profile.heroUrl;
+    next.capabilityImageUrl = profile.capabilityImageUrl;
+    next.certImageUrls = profile.certImageUrls;
+    next.needsImageUrl = profile.needsImageUrl;
     next.wechatQrUrl = profile.wechatQrUrl;
     next.hotline = profile.hotline;
     next.email = profile.email;

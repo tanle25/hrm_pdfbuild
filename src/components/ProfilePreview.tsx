@@ -219,7 +219,7 @@ export default function ProfilePreview({ data, lang }: Props) {
                     ))}
                   </ul>
                   <div className="trophy">
-                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=200&q=70" alt="Achievement" />
+                    <img src={data.capabilityImageUrl} alt="Capability" />
                   </div>
                 </div>
               </div>
@@ -256,12 +256,11 @@ export default function ProfilePreview({ data, lang }: Props) {
                     ))}
                   </ul>
                   <div className="cert-images">
-                    <div className="cert-thumb">
-                      <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=200&q=70" alt="Cert" />
-                    </div>
-                    <div className="cert-thumb">
-                      <img src="https://images.unsplash.com/photo-1589330694653-ded6df03f754?w=200&q=70" alt="Cert" />
-                    </div>
+                    {data.certImageUrls.map((url, i) => (
+                      <div key={i} className="cert-thumb">
+                        <img src={url} alt={`Cert ${i + 1}`} />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -313,7 +312,7 @@ export default function ProfilePreview({ data, lang }: Props) {
                 </ul>
               </div>
               <div className="needs-image">
-                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=300&q=70" alt="Needs" />
+                <img src={data.needsImageUrl} alt="Needs" />
               </div>
             </div>
           </div>
